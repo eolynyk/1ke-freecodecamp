@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>  <meta charset="UTF-8">
+    <title>Handlebars Demo</title>
+    <!-- dependant files -->
+    <script src="js/handlebars.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+</head>
+
+<!-- template -->
+<script id="template2" type="text/x-handlebars-template">
+    <div>Jquery:</div>
+    <ul>{{#Waypoints}}
+        {{#challenges}}
+            <h1> {{name}}</h1>
+            <li>
+                <iframe src="https://player.vimeo.com/video/{{challengeSeed}}"></iframe>
+            </li>
+            <li>
+                {{#each description}}
+                    {{{this}}}
+                {{/each}}
+            </li>
+        {{/challenges}}
+        {{/Waypoints}}
+    </ul>
+</script>
+
+
+<body><div id="main"></div></body>
+
+<script>
+    var source = document.getElementById('template2').innerHTML;
+    var template = Handlebars.compile(source);
+    var json = (function () {
+    var json = null;
+        $.ajax({
+            'async': false,
+            'global': false,
+            'url': "json/jquery-ajax-and-json.json",
+            'dataType': "json",
+            'success': function (data) {
+                json = data;
+            }
+        });
+        return json;
+    })(); 
+    
+
+    var result = template({Waypoints: json});
+    document.write(result);
+
+</script>
+</html>
